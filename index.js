@@ -1,3 +1,4 @@
+// Defining node structure
 class Node {
   constructor(data, next = null) {
     this.data = data;
@@ -5,6 +6,7 @@ class Node {
   }
 }
 
+// Defining linked list structure
 class LinkedList {
   constructor() {
     this.head = null;
@@ -37,7 +39,7 @@ class LinkedList {
 
   // Get size
   getSize() {
-    console.log(this.size);
+    console.log(`Size of LinkedList: ${this.size}`);
   }
 
   // Get head
@@ -47,6 +49,10 @@ class LinkedList {
 
   // Get tail
   getTail() {
+    if (!this.head) {
+      console.log("Empty list");
+      return null;
+    }
     let current = this.head;
     let count = 0;
     while (count < this.size - 1) {
@@ -58,24 +64,94 @@ class LinkedList {
 
   // Get at index
   at(index) {
+    if (!this.head) {
+      console.log("List is empty");
+      return null;
+    }
+    if (index < 0 || index >= this.size) {
+      console.log("Index out of bounds");
+      return null;
+    }
     let current = this.head;
     let count = 0;
 
     while (current) {
       if (count == index) {
         console.log(current);
+        return;
       }
       count++;
       current = current.next;
     }
+    console.log(null);
+  }
 
+  // Pop element
+  pop() {
+    if (this.size == 0) {
+      console.log("Cannot pop from an empty list");
+      return;
+    } else if (this.size == 1) {
+      this.head = null;
+      this.size--;
+      return;
+    }
+    let current = this.head;
+    let count = 0;
+    while (count < this.size - 2) {
+      current = current.next;
+      count++;
+    }
+    current.next = null;
+    this.size--;
+  }
+
+  // Contains value
+  contains(value) {
+    let current = this.head;
+    while (current) {
+      if (current.data === value) {
+        console.log(true);
+      }
+      current = current.next;
+    }
+    console.log(false);
+  }
+
+  // Return index of search value
+  find(value) {
+    let current = this.head;
+    let index = 0;
+    while (current) {
+      if (current.data === value) {
+        return index;
+      }
+      current = current.next;
+      index++;
+    }
     return null;
+  }
+
+  // LinkedList as string
+  toString() {
+    let current = this.head;
+    let string = "";
+    while (current) {
+      if (!current.next) {
+        string += `(${current.data}) -> null`;
+      } else {
+        string += `(${current.data}) -> `;
+      }
+      current = current.next;
+    }
+    console.log(string);
   }
 
   // Insert at index
   insertAt(data, index) {
     // If index is out of range
-    if (index > 0 && index > this.size) {
+    if (index < 0 || index >= this.size) {
+      console.log("Index out of bounds");
       return;
     }
 
@@ -100,13 +176,14 @@ class LinkedList {
 
     node.next = current;
     previous.next = node;
-
     this.size++;
+    console.log(`New node has been inserted at index: ${index}`);
   }
 
   // Remove at index
   removeAt(index) {
-    if (index > 0 && index > this.size) {
+    if (index < 0 || index >= this.size) {
+      console.log("Index out of bounds");
       return;
     }
 
@@ -126,23 +203,8 @@ class LinkedList {
 
       previous.next = current.next;
     }
-
     this.size--;
-  }
-
-  // Print list data
-  printListData() {
-    let current = this.head;
-    while (current) {
-      console.log(current.data);
-      current = current.next;
-    }
-  }
-
-  // Clear list
-  clearList() {
-    this.head = null;
-    this.size = null;
+    console.log(`Node has been removed from index: ${index}`);
   }
 }
 
@@ -156,9 +218,10 @@ l1.getSize();
 l1.getHead();
 l1.getTail();
 l1.at(2);
-// l1.insertAt(250, 2);
-// l1.getAt(3);
-// l1.removeAt(4);
-// l1.printListData();
-// l1.clearList();
-// l1.printListData();
+l1.pop();
+l1.contains(300);
+l1.find(200);
+l1.toString();
+l1.insertAt(250, 2);
+l1.removeAt(3);
+l1.toString();
